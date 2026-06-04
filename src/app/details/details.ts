@@ -2,7 +2,7 @@ import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { PokeApiService } from '../services/pokeapi.service';
-import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
+import { PokemonCardComponent } from '../pokemon-card/pokemon-card';
 
 /**
  * Component to display detailed information about a single Pokémon.
@@ -12,8 +12,8 @@ import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
   selector: 'app-details',
   standalone: true,
   imports: [CommonModule, RouterModule, PokemonCardComponent],
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.css']
+  templateUrl: './details.html',
+  styleUrl: './details.css'
 })
 export class DetailsComponent implements OnInit {
   pokemon = signal<any>(null);

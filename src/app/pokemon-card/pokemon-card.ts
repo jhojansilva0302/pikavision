@@ -10,8 +10,8 @@ import { RouterModule } from '@angular/router';
   selector: 'app-pokemon-card',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './pokemon-card.component.html',
-  styleUrls: ['./pokemon-card.component.css']
+  templateUrl: './pokemon-card.html',
+  styleUrl: './pokemon-card.css'
 })
 export class PokemonCardComponent {
   @Input() pokemon!: any;

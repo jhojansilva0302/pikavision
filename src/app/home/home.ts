@@ -2,7 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PokeApiService } from '../services/pokeapi.service';
-import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
+import { PokemonCardComponent } from '../pokemon-card/pokemon-card';
 
 /**
  * Home page displaying a grid of Pokémon cards.
@@ -11,8 +11,8 @@ import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterModule, PokemonCardComponent],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.html',
+  styleUrl: './home.css'
 })
 export class HomeComponent implements OnInit {
   // Signal holding the list of Pokémon objects.

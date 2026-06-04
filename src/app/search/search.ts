@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PokeApiService } from '../services/pokeapi.service';
-import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
+import { PokemonCardComponent } from '../pokemon-card/pokemon-card';
 
 @Component({
   selector: 'app-search',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, PokemonCardComponent],
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  templateUrl: './search.html',
+  styleUrl: './search.css'
 })
 export class SearchComponent {
 

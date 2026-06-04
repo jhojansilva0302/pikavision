@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
+import { PokemonCardComponent } from '../pokemon-card/pokemon-card';
 import { favorites, removeFavorite } from './favorites.signal';
 
 /**
@@ -11,8 +11,8 @@ import { favorites, removeFavorite } from './favorites.signal';
   selector: 'app-favorites',
   standalone: true,
   imports: [CommonModule, RouterModule, PokemonCardComponent],
-  templateUrl: './favorites.component.html',
-  styleUrls: ['./favorites.component.css']
+  templateUrl: './favorites.html',
+  styleUrl: './favorites.css'
 })
 export class FavoritesComponent {
   // expose the signal directly for the template
