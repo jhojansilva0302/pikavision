@@ -16,8 +16,27 @@ import { RouterModule } from '@angular/router';
 export class PokemonCardComponent {
   @Input() pokemon!: any;
 
+  /** Returns the ID of the Pokémon. */
+  get pokemonId(): number | string {
+    if (this.pokemon?.id) {
+      return this.pokemon.id;
+    }
+    if (this.pokemon?.url) {
+      const parts = this.pokemon.url.split('/').filter(Boolean);
+      return parts[parts.length - 1];
+    }
+    return '';
+  }
+
   /** Returns the URL of the official artwork for the Pokémon. */
   get artworkUrl(): string {
-    return this.pokemon?.sprites?.other?.['official-artwork']?.front_default ?? '';
+    if (this.pokemon?.sprites?.other?.['official-artwork']?.front_default) {
+      return this.pokemon.sprites.other['official-artwork'].front_default;
+    }
+    const id = this.pokemonId;
+    if (id) {
+      return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+    }
+    return '';
   }
 }

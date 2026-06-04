@@ -1,5 +1,92 @@
-.header { background: var(--primary-bg); padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-.nav { display: flex; gap: 2rem; justify-content: center; }
-.nav-link { color: var(--primary-text); text-decoration: none; font-weight: 600; }
-.nav-link.active { border-bottom: 2px solid var(--accent); }
-@media (max-width: 600px) { .nav { flex-direction: column; gap: 0.5rem; } }
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(11, 12, 16, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  transition: all 0.3s ease;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--font-family-title);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logo-red {
+  color: var(--pokeball-red);
+}
+
+.logo-white {
+  color: var(--text-primary);
+}
+
+.logo-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--poke-yellow);
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px var(--poke-yellow);
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-link {
+  font-family: var(--font-family-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.active {
+  color: var(--text-primary);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.1);
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+  .header-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

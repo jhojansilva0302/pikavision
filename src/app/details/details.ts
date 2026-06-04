@@ -2,7 +2,7 @@ import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { PokeApiService } from '../services/pokeapi.service';
-import { PokemonCardComponent } from '../pokemon-card/pokemon-card';
+import { toggleFavorite, isFavorite } from '../favorites/favorites.signal';
 
 /**
  * Component to display detailed information about a single Pokémon.
@@ -11,7 +11,7 @@ import { PokemonCardComponent } from '../pokemon-card/pokemon-card';
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule, RouterModule, PokemonCardComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './details.html',
   styleUrl: './details.css'
 })
@@ -20,6 +20,16 @@ export class DetailsComponent implements OnInit {
   loading = signal(true);
 
   constructor(private route: ActivatedRoute, private api: PokeApiService) {}
+
+  toggleFav(): void {
+    if (this.pokemon()) {
+      toggleFavorite(this.pokemon());
+    }
+  }
+
+  get isFav(): boolean {
+    return this.pokemon() ? isFavorite(this.pokemon()) : false;
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

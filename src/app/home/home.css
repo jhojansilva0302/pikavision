@@ -1,16 +1,108 @@
+.home-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease;
+}
+
+.home-title {
+  font-family: var(--font-family-title);
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--poke-yellow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
+}
+
+.home-subtitle {
+  font-family: var(--font-family-body);
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .home-container {
-  padding: 1rem;
+  animation: fadeInUp 1s ease;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
 }
 
-.loading {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #ffcc00;
-  margin-top: 2rem;
+/* Pokéball Loading Spinner */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1.5rem;
+}
+
+.pokeball-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #000000;
+  border-radius: 50%;
+  position: relative;
+  background: linear-gradient(to bottom, var(--pokeball-red) 50%, #ffffff 50%);
+  animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+.pokeball-spinner::after {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 4px;
+  background: #000000;
+  top: calc(50% - 2px);
+  left: -4px;
+}
+
+.pokeball-spinner::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #ffffff;
+  border: 4px solid #000000;
+  border-radius: 50%;
+  top: calc(50% - 9px);
+  left: calc(50% - 9px);
+  z-index: 10;
+}
+
+.loading-text {
+  font-family: var(--font-family-title);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .home-title {
+    font-size: 2rem;
+  }
+  .home-subtitle {
+    font-size: 0.95rem;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
 }

@@ -1,13 +1,102 @@
-.favorites-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
+.favorites-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease;
 }
 
-.empty-msg {
+.favorites-title {
+  font-family: var(--font-family-title);
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--poke-yellow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
+}
+
+.favorites-subtitle {
+  font-family: var(--font-family-body);
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.favorites-container {
+  animation: fadeInUp 1s ease;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Empty State Card */
+.empty-state-card {
+  max-width: 450px;
+  margin: 2rem auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 4rem 2rem;
   text-align: center;
-  color: #ffcc00;
-  margin-top: 2rem;
-  font-size: 1.2rem;
+  animation: fadeInUp 0.6s ease;
+}
+
+.empty-state-icon {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 1.5rem;
+  color: var(--poke-yellow);
+  text-shadow: 0 0 20px rgba(255, 203, 5, 0.4);
+  animation: pulse-glow 2s infinite;
+}
+
+.empty-state-title {
+  font-family: var(--font-family-title);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-text {
+  font-family: var(--font-family-body);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.btn-explore {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: var(--pokeball-red);
+  color: #ffffff;
+  border: 1px solid rgba(255, 60, 92, 0.3);
+  border-radius: 12px;
+  font-family: var(--font-family-title);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+}
+
+.btn-explore:hover {
+  transform: translateY(-2px);
+  background: #ff5271;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+@media (max-width: 600px) {
+  .favorites-title {
+    font-size: 2rem;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
 }

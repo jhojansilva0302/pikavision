@@ -1,15 +1,82 @@
+<div class="back-nav">
+  <a routerLink="/home" class="btn-back">
+    <span class="back-arrow">←</span> Back to Explore
+  </a>
+</div>
+
 <div class="details-container" *ngIf="!loading() && pokemon()">
-  <app-pokemon-card [pokemon]="pokemon()"></app-pokemon-card>
-  <div class="info">
-    <h2>{{ pokemon().name | titlecase }}</h2>
-    <p><strong>Height:</strong> {{ pokemon().height }}</p>
-    <p><strong>Weight:</strong> {{ pokemon().weight }}</p>
-    <p><strong>Types:</strong> {{ pokemon().types?.map(t => t.type.name).join(', ') }}</p>
+  <div class="details-grid">
+    <!-- Left side: Artwork & Favorite Toggle -->
+    <div class="art-card">
+      <div class="art-glow"></div>
+      <img [src]="pokemon().sprites?.other?.['official-artwork']?.front_default" alt="{{ pokemon().name }}" class="pokemon-large-art" />
+      
+      <button class="btn-favorite" (click)="toggleFav()" [class.is-fav]="isFav">
+        <span class="star-icon">★</span>
+        {{ isFav ? 'Remove from Favorites' : 'Add to Favorites' }}
+      </button>
+    </div>
+
+    <!-- Right side: Info Card -->
+    <div class="info-card">
+      <div class="info-header">
+        <span class="id-badge">#{{ pokemon().id }}</span>
+        <h1 class="pokemon-name">{{ pokemon().name | titlecase }}</h1>
+      </div>
+
+      <!-- Types Badges -->
+      <div class="types-row">
+        <span *ngFor="let t of pokemon().types" class="type-badge type-{{ t.type.name.toLowerCase() }}">
+          {{ t.type.name | titlecase }}
+        </span>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="details-section">
+        <h3 class="section-title">Base Stats</h3>
+        <div class="stats-list">
+          <div *ngFor="let s of pokemon().stats" class="stat-row">
+            <span class="stat-name">{{ s.stat.name | uppercase }}</span>
+            <span class="stat-value">{{ s.base_stat }}</span>
+            <div class="stat-bar-bg">
+              <div class="stat-bar-fill" [style.width.%]="(s.base_stat / 255) * 100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Row -->
+      <div class="details-section info-summary">
+        <div class="info-item">
+          <span class="info-label">Height</span>
+          <span class="info-val">{{ pokemon().height / 10 }} m</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Weight</span>
+          <span class="info-val">{{ pokemon().weight / 10 }} kg</span>
+        </div>
+      </div>
+
+      <!-- Abilities -->
+      <div class="details-section">
+        <h3 class="section-title">Abilities</h3>
+        <div class="abilities-row">
+          <span *ngFor="let a of pokemon().abilities" class="ability-badge">
+            {{ a.ability.name | titlecase }}
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="loading" *ngIf="loading()">
-  Loading details...
+
+<div class="loading-container" *ngIf="loading()">
+  <div class="pokeball-spinner"></div>
+  <p class="loading-text">Loading Details...</p>
 </div>
-<div class="not-found" *ngIf="!loading() && !pokemon()">
-  Pokémon not found.
+
+<div class="no-results-card" *ngIf="!loading() && !pokemon()">
+  <span class="no-results-icon">❓</span>
+  <h3 class="no-results-title">Pokémon Not Found</h3>
+  <p class="no-results-text">We couldn't load the details for this Pokémon.</p>
 </div>

@@ -1,18 +1,31 @@
-<div class="search-container">
+<div class="search-hero">
+  <h1 class="search-title">Search Pokémon</h1>
+  <p class="search-subtitle">Enter a Pokémon's name to see details, stats, and abilities.</p>
+</div>
+
+<div class="search-form-container">
   <form (ngSubmit)="performSearch()" class="search-form">
-    <input type="text" [(ngModel)]="query" name="query" placeholder="Search Pokémon..." class="search-input" />
-    <button type="submit" class="search-button">Search</button>
+    <div class="input-wrapper">
+      <span class="search-icon">🔍</span>
+      <input type="text" [(ngModel)]="query" name="query" placeholder="Search by name (e.g. pikachu, charizard)..." class="search-input" autocomplete="off" />
+    </div>
+    <button type="submit" class="search-button" [disabled]="!query.trim()">Search</button>
   </form>
 </div>
 
-<div class="loading" *ngIf="loading()">
-  Searching Pokémon...
+<div class="loading-container" *ngIf="loading()">
+  <div class="pokeball-spinner"></div>
+  <p class="loading-text">Searching Pokémon...</p>
 </div>
 
-<div class="results" *ngIf="!loading() && results().length > 0">
-  <app-pokemon-card *ngFor="let p of results()" [pokemon]="p"></app-pokemon-card>
+<div class="results-container" *ngIf="!loading() && results().length > 0">
+  <div class="search-result-wrapper">
+    <app-pokemon-card *ngFor="let p of results()" [pokemon]="p"></app-pokemon-card>
+  </div>
 </div>
 
-<div class="no-results" *ngIf="!loading() && results().length === 0 && query">
-  No Pokémon found.
+<div class="no-results-card" *ngIf="!loading() && results().length === 0 && query.trim()">
+  <span class="no-results-icon">❓</span>
+  <h3 class="no-results-title">No Pokémon Found</h3>
+  <p class="no-results-text">We couldn't find a Pokémon matching "{{ query }}". Make sure the spelling is correct.</p>
 </div>

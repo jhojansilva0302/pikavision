@@ -1,8 +1,15 @@
+<div class="home-hero">
+  <h1 class="home-title">Explore Pokémon World</h1>
+  <p class="home-subtitle">Discover, search, and collect your favorite Pokémon with Pikavision.</p>
+</div>
+
 <div class="home-container" *ngIf="!loading()">
   <div class="grid">
     <app-pokemon-card *ngFor="let p of pokemonList()" [pokemon]="p"></app-pokemon-card>
   </div>
 </div>
-<div class="loading" *ngIf="loading()">
-  Loading Pokémon...
+
+<div class="loading-container" *ngIf="loading()">
+  <div class="pokeball-spinner"></div>
+  <p class="loading-text">Loading Pokémon...</p>
 </div>

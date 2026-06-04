@@ -1,6 +1,12 @@
 <div class="pokemon-card">
-  <a [routerLink]="['/details', pokemon.id]" class="card-link">
-    <img [src]="artworkUrl" alt="{{ pokemon.name }}" class="pokemon-art" />
-    <h3 class="pokemon-name">{{ pokemon.name | titlecase }}</h3>
+  <a [routerLink]="['/details', pokemonId]" class="card-link">
+    <div class="card-image-container">
+      <div class="card-glow-bg"></div>
+      <img [src]="artworkUrl" alt="{{ pokemon.name }}" class="pokemon-art" loading="lazy" />
+      <span class="pokemon-number">#{{ pokemonId }}</span>
+    </div>
+    <div class="card-info">
+      <h3 class="pokemon-name">{{ pokemon.name | titlecase }}</h3>
+    </div>
   </a>
 </div>
