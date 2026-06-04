@@ -1,0 +1,7 @@
+<div class="favorites-container" *ngIf="favList().length > 0; else emptyState">
+  <app-pokemon-card *ngFor="let p of favList()" [pokemon]="p"></app-pokemon-card>
+</div>
+
+<ng-template #emptyState>
+  <p class="empty-msg">No tienes Pokémon favoritos aún.</p>
+</ng-template>

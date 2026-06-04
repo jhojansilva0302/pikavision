@@ -1,0 +1,18 @@
+<div class="search-container">
+  <form (ngSubmit)="performSearch()" class="search-form">
+    <input type="text" [(ngModel)]="query" name="query" placeholder="Search Pokémon..." class="search-input" />
+    <button type="submit" class="search-button">Search</button>
+  </form>
+</div>
+
+<div class="loading" *ngIf="loading()">
+  Searching Pokémon...
+</div>
+
+<div class="results" *ngIf="!loading() && results().length > 0">
+  <app-pokemon-card *ngFor="let p of results()" [pokemon]="p"></app-pokemon-card>
+</div>
+
+<div class="no-results" *ngIf="!loading() && results().length === 0 && query">
+  No Pokémon found.
+</div>

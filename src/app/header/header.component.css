@@ -1,0 +1,5 @@
+.header { background: var(--primary-bg); padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.nav { display: flex; gap: 2rem; justify-content: center; }
+.nav-link { color: var(--primary-text); text-decoration: none; font-weight: 600; }
+.nav-link.active { border-bottom: 2px solid var(--accent); }
+@media (max-width: 600px) { .nav { flex-direction: column; gap: 0.5rem; } }

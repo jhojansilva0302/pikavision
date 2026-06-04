@@ -1,0 +1,8 @@
+<div class="home-container" *ngIf="!loading()">
+  <div class="grid">
+    <app-pokemon-card *ngFor="let p of pokemonList()" [pokemon]="p"></app-pokemon-card>
+  </div>
+</div>
+<div class="loading" *ngIf="loading()">
+  Loading Pokémon...
+</div>

@@ -3,6 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
+export interface Pokemon {
+  id: number;
+  name: string;
+}
+
 export interface PokemonListResponse {
   count: number;
   next: string | null;
@@ -20,7 +25,7 @@ export interface PokemonDetail {
 }
 
 @Injectable({ providedIn: 'root' })
-export class PokeapiService {
+export class PokeApiService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiBaseUrl;
 

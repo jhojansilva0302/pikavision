@@ -1,0 +1,15 @@
+<div class="details-container" *ngIf="!loading() && pokemon()">
+  <app-pokemon-card [pokemon]="pokemon()"></app-pokemon-card>
+  <div class="info">
+    <h2>{{ pokemon().name | titlecase }}</h2>
+    <p><strong>Height:</strong> {{ pokemon().height }}</p>
+    <p><strong>Weight:</strong> {{ pokemon().weight }}</p>
+    <p><strong>Types:</strong> {{ pokemon().types?.map(t => t.type.name).join(', ') }}</p>
+  </div>
+</div>
+<div class="loading" *ngIf="loading()">
+  Loading details...
+</div>
+<div class="not-found" *ngIf="!loading() && !pokemon()">
+  Pokémon not found.
+</div>
