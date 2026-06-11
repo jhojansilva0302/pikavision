@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PokeApiService } from '../services/pokeapi.service';
@@ -30,6 +30,7 @@ export interface SortBtn {
   standalone: true,
   imports: [RouterModule, FormsModule, PokemonCardComponent],
   templateUrl: './home.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.css'
 })
 export class HomeComponent implements OnInit {

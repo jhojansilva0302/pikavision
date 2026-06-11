@@ -46,7 +46,7 @@
         <div class="art-card">
           <div class="art-glow"></div>
           <img
-            [src]="pokemon().sprites?.other?.['official-artwork']?.front_default"
+            [src]="$safeNavigationMigration(pokemon().sprites?.other?.['official-artwork']?.front_default)"
             alt="{{ pokemon().name }}"
             class="pokemon-large-art"
           />

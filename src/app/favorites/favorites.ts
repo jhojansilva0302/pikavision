@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card';
 import { favorites, removeFavorite } from './favorites.signal';
@@ -12,6 +12,7 @@ import { favorites, removeFavorite } from './favorites.signal';
   standalone: true,
   imports: [RouterModule, PokemonCardComponent],
   templateUrl: './favorites.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './favorites.css'
 })
 export class FavoritesComponent {

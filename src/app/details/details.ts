@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, computed } from '@angular/core';
+import { Component, signal, OnInit, computed, ChangeDetectionStrategy } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -25,6 +25,7 @@ const STAT_ES: Record<string, string> = {
   standalone: true,
   imports: [RouterModule, TitleCasePipe],
   templateUrl: './details.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './details.css'
 })
 export class DetailsComponent implements OnInit {

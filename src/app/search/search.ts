@@ -1,4 +1,4 @@
-import { Component, OnDestroy, signal, effect } from '@angular/core';
+import { Component, OnDestroy, signal, effect, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PokeApiService } from '../services/pokeapi.service';
@@ -18,6 +18,7 @@ import { PokemonCardComponent } from '../pokemon-card/pokemon-card';
   standalone: true,
   imports: [RouterModule, FormsModule, PokemonCardComponent],
   templateUrl: './search.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './search.css'
 })
 export class SearchComponent implements OnDestroy {
