@@ -43,4 +43,9 @@ export class PokeApiService {
     const url = `pokemon/${idOrName}`;
     return this.http.get<PokemonDetail>(url);
   }
+
+  /** Fetches full ability data — includes `names` array with localized names. */
+  getAbilityDetail(nameOrId: string): Observable<any> {
+    return this.http.get<any>(`ability/${nameOrId}`);
+  }
 }

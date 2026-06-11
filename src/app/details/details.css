@@ -1,7 +1,400 @@
+/* ═══════════════════════════════════════════════════════════
+   TYPE SCENE SYSTEM
+   Each type sets CSS custom properties used by blobs, glow
+   and accent elements.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Base wrapper ─────────────────────────────────────────── */
+.type-scene {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  padding: 2rem 0;
+  /* Smooth entrance */
+  animation: fadeInUp 0.7s ease;
+}
+
+/* ── Decorative blobs ─────────────────────────────────────── */
+.type-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0;          /* default hidden; each theme overrides */
+  pointer-events: none;
+  z-index: 0;
+}
+
+.type-blob--1 {
+  width: 360px; height: 360px;
+  top: -120px; right: -80px;
+  animation: blob-drift 9s ease-in-out infinite alternate;
+}
+.type-blob--2 {
+  width: 260px; height: 260px;
+  bottom: -60px; left: -60px;
+  animation: blob-drift 12s ease-in-out infinite alternate-reverse;
+}
+.type-blob--3 {
+  width: 180px; height: 180px;
+  top: 40%; left: 30%;
+  animation: blob-drift 7s ease-in-out infinite alternate;
+}
+
+@keyframes blob-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(20px, -25px) scale(1.08); }
+  100% { transform: translate(-15px, 15px) scale(0.95); }
+}
+
+/* Make sure children render above the blobs */
+.type-scene > .details-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Per-type colour variables & blob colours ─────────────── */
+
+/* ════════════════════════════════════════════════════════════
+   PARTICLE SYSTEM
+   8 floating emoji icons per type, each with unique position,
+   size, delay and type-specific animation.
+   ════════════════════════════════════════════════════════════ */
+
+/* Base particle styles */
+.type-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.tp {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+}
+
+/* 8 particle positions, sizes and base delays */
+.tp--1 { top: 4%;    left: 2%;   font-size: 2rem;   animation-delay: 0s;   animation-duration: 3.5s; }
+.tp--2 { top: 3%;    right: 4%;  font-size: 1.4rem; animation-delay: 0.8s; animation-duration: 4.2s; }
+.tp--3 { top: 35%;   left: 1.5%; font-size: 1rem;   animation-delay: 1.6s; animation-duration: 3s;   }
+.tp--4 { top: 62%;   right: 2%;  font-size: 1.7rem; animation-delay: 0.4s; animation-duration: 4.8s; }
+.tp--5 { bottom: 8%; left: 6%;   font-size: 1.2rem; animation-delay: 1.2s; animation-duration: 3.8s; }
+.tp--6 { bottom: 4%; right: 6%;  font-size: 2rem;   animation-delay: 2s;   animation-duration: 3.3s; }
+.tp--7 { top: 48%;   right: 1%;  font-size: 0.9rem; animation-delay: 2.5s; animation-duration: 4s;   }
+.tp--8 { top: 78%;   left: 14%;  font-size: 1.1rem; animation-delay: 1s;   animation-duration: 3.6s; }
+
+/* ── Keyframe animations ──────────────────────────────────── */
+
+/* 🔥 Fire / 💥 Fighting — particles rise & fade like embers */
+@keyframes rise-and-fade {
+  0%   { transform: translateY(0)     scale(1);   opacity: 0; }
+  15%  { opacity: 0.85; }
+  70%  { opacity: 0.7; }
+  100% { transform: translateY(-90px) scale(0.5); opacity: 0; }
+}
+
+/* 💧 Water / ❄️ Ice — particles fall like rain/snow */
+@keyframes fall-and-fade {
+  0%   { transform: translateY(-10px) rotate(0deg);   opacity: 0; }
+  15%  { opacity: 0.8; }
+  100% { transform: translateY(90px)  rotate(25deg);  opacity: 0; }
+}
+
+/* 🍃 Grass / 🪶 Flying / 🐛 Bug — drift sideways like leaves in wind */
+@keyframes drift-sway {
+  0%   { transform: translate(0, 0)      rotate(-8deg);  opacity: 0.2; }
+  25%  { opacity: 0.8; }
+  50%  { transform: translate(35px,-20px) rotate(6deg);  opacity: 0.7; }
+  75%  { opacity: 0.9; }
+  100% { transform: translate(0, 0)      rotate(-8deg);  opacity: 0.2; }
+}
+
+/* ⚡ Electric / ✨ Psychic — flash and pulse */
+@keyframes pulse-spark {
+  0%, 100% { transform: scale(0.7) rotate(-10deg); opacity: 0.2; }
+  30%       { transform: scale(1.4) rotate(10deg);  opacity: 1;   }
+  60%       { transform: scale(0.9) rotate(-5deg);  opacity: 0.6; }
+}
+
+/* 🌸 Fairy / 🐉 Dragon / ⚙️ Steel — spin while floating */
+@keyframes spin-float {
+  0%   { transform: translateY(0)   rotate(0deg);   opacity: 0.5; }
+  50%  { transform: translateY(-18px) rotate(180deg); opacity: 1;  }
+  100% { transform: translateY(0)   rotate(360deg); opacity: 0.5; }
+}
+
+/* 👻 Ghost — materialise, float up, vanish */
+@keyframes ghost-float {
+  0%   { transform: translateY(10px) scale(0.8); opacity: 0;   }
+  20%  { opacity: 0.75; }
+  70%  { opacity: 0.5; }
+  100% { transform: translateY(-65px) scale(0.6); opacity: 0;  }
+}
+
+/* 🌙 Dark / ⭐ Normal — gentle twinkle */
+@keyframes twinkle {
+  0%, 100% { transform: scale(0.6) rotate(0deg);  opacity: 0.2; }
+  50%       { transform: scale(1.2) rotate(25deg); opacity: 0.9; }
+}
+
+/* 🫧 Poison / 🪨 Ground / Rock — gentle bobbing bubbles/rocks */
+@keyframes bob-float {
+  0%, 100% { transform: translateY(0)    scale(1);   opacity: 0.5; }
+  50%       { transform: translateY(-14px) scale(1.1); opacity: 0.9; }
+}
+
+/* ── Particle emoji & animation per type ──────────────────── */
+
+/* 🔥 Fire */
+.type-scene--fire .tp { animation-name: rise-and-fade; animation-iteration-count: infinite; }
+.type-scene--fire .tp::before { content: '🔥'; }
+.type-scene--fire .tp:nth-child(even)::before { content: '✨'; }
+
+/* 💧 Water */
+.type-scene--water .tp { animation-name: fall-and-fade; animation-iteration-count: infinite; }
+.type-scene--water .tp::before { content: '💧'; }
+.type-scene--water .tp:nth-child(3n)::before { content: '🌊'; }
+
+/* 🍃 Grass */
+.type-scene--grass .tp { animation-name: drift-sway; animation-iteration-count: infinite; }
+.type-scene--grass .tp::before { content: '🍃'; }
+.type-scene--grass .tp:nth-child(even)::before { content: '🌿'; }
+
+/* ⚡ Electric */
+.type-scene--electric .tp { animation-name: pulse-spark; animation-iteration-count: infinite; }
+.type-scene--electric .tp::before { content: '⚡'; }
+.type-scene--electric .tp:nth-child(even)::before { content: '✨'; }
+
+/* ❄️ Ice */
+.type-scene--ice .tp { animation-name: fall-and-fade; animation-iteration-count: infinite; animation-timing-function: linear; }
+.type-scene--ice .tp::before { content: '❄️'; }
+.type-scene--ice .tp:nth-child(even)::before { content: '🌨'; }
+
+/* 💥 Fighting */
+.type-scene--fighting .tp { animation-name: rise-and-fade; animation-iteration-count: infinite; }
+.type-scene--fighting .tp::before { content: '💥'; }
+.type-scene--fighting .tp:nth-child(even)::before { content: '⭐'; }
+
+/* 🫧 Poison */
+.type-scene--poison .tp { animation-name: bob-float; animation-iteration-count: infinite; }
+.type-scene--poison .tp::before { content: '🫧'; }
+.type-scene--poison .tp:nth-child(even)::before { content: '💜'; }
+
+/* 🪨 Ground */
+.type-scene--ground .tp { animation-name: bob-float; animation-iteration-count: infinite; }
+.type-scene--ground .tp::before { content: '🪨'; }
+.type-scene--ground .tp:nth-child(even)::before { content: '🌪'; }
+
+/* 🪶 Flying */
+.type-scene--flying .tp { animation-name: drift-sway; animation-iteration-count: infinite; }
+.type-scene--flying .tp::before { content: '🪶'; }
+.type-scene--flying .tp:nth-child(even)::before { content: '☁️'; }
+
+/* ✨ Psychic */
+.type-scene--psychic .tp { animation-name: pulse-spark; animation-iteration-count: infinite; }
+.type-scene--psychic .tp::before { content: '✨'; }
+.type-scene--psychic .tp:nth-child(even)::before { content: '🔮'; }
+
+/* 🐛 Bug */
+.type-scene--bug .tp { animation-name: drift-sway; animation-iteration-count: infinite; }
+.type-scene--bug .tp::before { content: '🌿'; }
+.type-scene--bug .tp:nth-child(even)::before { content: '🍀'; }
+
+/* 🪨 Rock */
+.type-scene--rock .tp { animation-name: bob-float; animation-iteration-count: infinite; }
+.type-scene--rock .tp::before { content: '🪨'; }
+.type-scene--rock .tp:nth-child(even)::before { content: '💎'; }
+
+/* 👻 Ghost */
+.type-scene--ghost .tp { animation-name: ghost-float; animation-iteration-count: infinite; }
+.type-scene--ghost .tp::before { content: '👻'; }
+.type-scene--ghost .tp:nth-child(even)::before { content: '💜'; }
+.type-scene--ghost .tp:nth-child(3n)::before { content: '🌙'; }
+
+/* 🐉 Dragon */
+.type-scene--dragon .tp { animation-name: spin-float; animation-iteration-count: infinite; }
+.type-scene--dragon .tp::before { content: '🔥'; }
+.type-scene--dragon .tp:nth-child(even)::before { content: '⚡'; }
+.type-scene--dragon .tp:nth-child(3n)::before { content: '✨'; }
+
+/* 🌑 Dark */
+.type-scene--dark .tp { animation-name: twinkle; animation-iteration-count: infinite; }
+.type-scene--dark .tp::before { content: '🌙'; }
+.type-scene--dark .tp:nth-child(even)::before { content: '⭐'; }
+
+/* ⚙️ Steel */
+.type-scene--steel .tp { animation-name: spin-float; animation-iteration-count: infinite; }
+.type-scene--steel .tp::before { content: '⚙️'; }
+.type-scene--steel .tp:nth-child(even)::before { content: '⭐'; }
+
+/* 🌸 Fairy */
+.type-scene--fairy .tp { animation-name: spin-float; animation-iteration-count: infinite; }
+.type-scene--fairy .tp::before { content: '🌸'; }
+.type-scene--fairy .tp:nth-child(even)::before { content: '✨'; }
+.type-scene--fairy .tp:nth-child(3n)::before { content: '💖'; }
+
+/* ⭐ Normal */
+.type-scene--normal .tp { animation-name: twinkle; animation-iteration-count: infinite; }
+.type-scene--normal .tp::before { content: '⭐'; }
+.type-scene--normal .tp:nth-child(even)::before { content: '✨'; }
+
+/* ── Per-type colour variables & blob colours ─────────────── */
+
+.type-scene--fire {
+  --tc: 240, 128, 48;
+  background: radial-gradient(ellipse at top right, rgba(240,128,48,.10) 0%, transparent 65%);
+}
+.type-scene--fire .type-blob { opacity: 0.55; background: radial-gradient(circle, rgba(240,128,48,.9), rgba(255,87,34,.5)); }
+.type-scene--fire .art-glow  { background: radial-gradient(circle, rgba(240,128,48,.22) 0%, transparent 70%); }
+.type-scene--fire .stat-bar-fill { background: linear-gradient(90deg, #f08030, #ff8c00); }
+
+.type-scene--water {
+  --tc: 104, 144, 240;
+  background: radial-gradient(ellipse at top right, rgba(104,144,240,.10) 0%, transparent 65%);
+}
+.type-scene--water .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(104,144,240,.9), rgba(33,150,243,.5)); }
+.type-scene--water .art-glow  { background: radial-gradient(circle, rgba(104,144,240,.22) 0%, transparent 70%); }
+.type-scene--water .stat-bar-fill { background: linear-gradient(90deg, #6890f0, #2196f3); }
+
+.type-scene--grass {
+  --tc: 120, 200, 80;
+  background: radial-gradient(ellipse at top right, rgba(120,200,80,.10) 0%, transparent 65%);
+}
+.type-scene--grass .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(120,200,80,.9), rgba(56,142,60,.5)); }
+.type-scene--grass .art-glow  { background: radial-gradient(circle, rgba(120,200,80,.22) 0%, transparent 70%); }
+.type-scene--grass .stat-bar-fill { background: linear-gradient(90deg, #78c850, #43a047); }
+
+.type-scene--electric {
+  --tc: 248, 208, 48;
+  background: radial-gradient(ellipse at top right, rgba(248,208,48,.12) 0%, transparent 65%);
+}
+.type-scene--electric .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(248,208,48,.9), rgba(255,235,59,.5)); }
+.type-scene--electric .art-glow  { background: radial-gradient(circle, rgba(248,208,48,.25) 0%, transparent 70%); }
+.type-scene--electric .stat-bar-fill { background: linear-gradient(90deg, #f8d030, #ffcc02); }
+
+.type-scene--ice {
+  --tc: 152, 216, 216;
+  background: radial-gradient(ellipse at top right, rgba(152,216,216,.10) 0%, transparent 65%);
+}
+.type-scene--ice .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(152,216,216,.9), rgba(79,195,247,.5)); }
+.type-scene--ice .art-glow  { background: radial-gradient(circle, rgba(152,216,216,.22) 0%, transparent 70%); }
+.type-scene--ice .stat-bar-fill { background: linear-gradient(90deg, #98d8d8, #4fc3f7); }
+
+.type-scene--fighting {
+  --tc: 192, 48, 40;
+  background: radial-gradient(ellipse at top right, rgba(192,48,40,.10) 0%, transparent 65%);
+}
+.type-scene--fighting .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(192,48,40,.9), rgba(229,57,53,.5)); }
+.type-scene--fighting .art-glow  { background: radial-gradient(circle, rgba(192,48,40,.22) 0%, transparent 70%); }
+.type-scene--fighting .stat-bar-fill { background: linear-gradient(90deg, #c03028, #e53935); }
+
+.type-scene--poison {
+  --tc: 160, 64, 160;
+  background: radial-gradient(ellipse at top right, rgba(160,64,160,.10) 0%, transparent 65%);
+}
+.type-scene--poison .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(160,64,160,.9), rgba(142,36,170,.5)); }
+.type-scene--poison .art-glow  { background: radial-gradient(circle, rgba(160,64,160,.22) 0%, transparent 70%); }
+.type-scene--poison .stat-bar-fill { background: linear-gradient(90deg, #a040a0, #8e24aa); }
+
+.type-scene--ground {
+  --tc: 224, 192, 104;
+  background: radial-gradient(ellipse at top right, rgba(224,192,104,.10) 0%, transparent 65%);
+}
+.type-scene--ground .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(224,192,104,.9), rgba(255,193,7,.5)); }
+.type-scene--ground .art-glow  { background: radial-gradient(circle, rgba(224,192,104,.22) 0%, transparent 70%); }
+.type-scene--ground .stat-bar-fill { background: linear-gradient(90deg, #e0c068, #ffc107); }
+
+.type-scene--flying {
+  --tc: 168, 144, 240;
+  background: radial-gradient(ellipse at top right, rgba(168,144,240,.10) 0%, transparent 65%);
+}
+.type-scene--flying .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(168,144,240,.9), rgba(126,87,194,.5)); }
+.type-scene--flying .art-glow  { background: radial-gradient(circle, rgba(168,144,240,.22) 0%, transparent 70%); }
+.type-scene--flying .stat-bar-fill { background: linear-gradient(90deg, #a890f0, #7e57c2); }
+
+.type-scene--psychic {
+  --tc: 248, 88, 136;
+  background: radial-gradient(ellipse at top right, rgba(248,88,136,.10) 0%, transparent 65%);
+}
+.type-scene--psychic .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(248,88,136,.9), rgba(236,64,122,.5)); }
+.type-scene--psychic .art-glow  { background: radial-gradient(circle, rgba(248,88,136,.22) 0%, transparent 70%); }
+.type-scene--psychic .stat-bar-fill { background: linear-gradient(90deg, #f85888, #ec407a); }
+
+.type-scene--bug {
+  --tc: 168, 184, 32;
+  background: radial-gradient(ellipse at top right, rgba(168,184,32,.10) 0%, transparent 65%);
+}
+.type-scene--bug .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(168,184,32,.9), rgba(124,179,66,.5)); }
+.type-scene--bug .art-glow  { background: radial-gradient(circle, rgba(168,184,32,.22) 0%, transparent 70%); }
+.type-scene--bug .stat-bar-fill { background: linear-gradient(90deg, #a8b820, #7cb342); }
+
+.type-scene--rock {
+  --tc: 184, 160, 56;
+  background: radial-gradient(ellipse at top right, rgba(184,160,56,.10) 0%, transparent 65%);
+}
+.type-scene--rock .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(184,160,56,.9), rgba(141,110,99,.5)); }
+.type-scene--rock .art-glow  { background: radial-gradient(circle, rgba(184,160,56,.22) 0%, transparent 70%); }
+.type-scene--rock .stat-bar-fill { background: linear-gradient(90deg, #b8a038, #8d6e63); }
+
+.type-scene--ghost {
+  --tc: 112, 88, 152;
+  background: radial-gradient(ellipse at top right, rgba(112,88,152,.14) 0%, transparent 65%);
+}
+.type-scene--ghost .type-blob { opacity: 0.55; background: radial-gradient(circle, rgba(112,88,152,.9), rgba(74,20,140,.5)); }
+.type-scene--ghost .art-glow  { background: radial-gradient(circle, rgba(112,88,152,.25) 0%, transparent 70%); }
+.type-scene--ghost .stat-bar-fill { background: linear-gradient(90deg, #705898, #4a148c); }
+
+.type-scene--dragon {
+  --tc: 112, 56, 248;
+  background: radial-gradient(ellipse at top right, rgba(112,56,248,.10) 0%, transparent 65%);
+}
+.type-scene--dragon .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(112,56,248,.9), rgba(48,79,254,.5)); }
+.type-scene--dragon .art-glow  { background: radial-gradient(circle, rgba(112,56,248,.22) 0%, transparent 70%); }
+.type-scene--dragon .stat-bar-fill { background: linear-gradient(90deg, #7038f8, #304ffe); }
+
+.type-scene--dark {
+  --tc: 112, 88, 72;
+  background: radial-gradient(ellipse at top right, rgba(112,88,72,.14) 0%, transparent 65%);
+}
+.type-scene--dark .type-blob { opacity: 0.6; background: radial-gradient(circle, rgba(112,88,72,.9), rgba(33,33,33,.7)); }
+.type-scene--dark .art-glow  { background: radial-gradient(circle, rgba(112,88,72,.25) 0%, transparent 70%); }
+.type-scene--dark .stat-bar-fill { background: linear-gradient(90deg, #705848, #212121); }
+
+.type-scene--steel {
+  --tc: 184, 184, 208;
+  background: radial-gradient(ellipse at top right, rgba(184,184,208,.10) 0%, transparent 65%);
+}
+.type-scene--steel .type-blob { opacity: 0.45; background: radial-gradient(circle, rgba(184,184,208,.9), rgba(120,144,156,.5)); }
+.type-scene--steel .art-glow  { background: radial-gradient(circle, rgba(184,184,208,.22) 0%, transparent 70%); }
+.type-scene--steel .stat-bar-fill { background: linear-gradient(90deg, #b8b8d0, #78909c); }
+
+.type-scene--fairy {
+  --tc: 238, 153, 172;
+  background: radial-gradient(ellipse at top right, rgba(238,153,172,.10) 0%, transparent 65%);
+}
+.type-scene--fairy .type-blob { opacity: 0.5; background: radial-gradient(circle, rgba(238,153,172,.9), rgba(240,98,146,.5)); }
+.type-scene--fairy .art-glow  { background: radial-gradient(circle, rgba(238,153,172,.22) 0%, transparent 70%); }
+.type-scene--fairy .stat-bar-fill { background: linear-gradient(90deg, #ee99ac, #f06292); }
+
+.type-scene--normal {
+  --tc: 168, 168, 120;
+  background: radial-gradient(ellipse at top right, rgba(168,168,120,.08) 0%, transparent 65%);
+}
+.type-scene--normal .type-blob { opacity: 0.35; background: radial-gradient(circle, rgba(168,168,120,.9), rgba(189,189,189,.5)); }
+.type-scene--normal .art-glow  { background: radial-gradient(circle, rgba(168,168,120,.18) 0%, transparent 70%); }
+.type-scene--normal .stat-bar-fill { background: linear-gradient(90deg, #a8a878, #bdbdbd); }
+
+/* ── Back nav ─────────────────────────────────────────────── */
 .back-nav {
   margin-bottom: 2rem;
   animation: fadeInUp 0.6s ease;
 }
+
 
 .btn-back {
   display: inline-flex;
@@ -408,6 +801,26 @@
   font-family: var(--font-family-body);
   font-size: 0.95rem;
   color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.btn-back-home {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.65rem 1.75rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-accent);
+  font-family: var(--font-family-title);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.btn-back-home:hover {
+  background: var(--color-accent);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
 @media (max-width: 900px) {
@@ -419,3 +832,4 @@
     font-size: 2rem;
   }
 }
+

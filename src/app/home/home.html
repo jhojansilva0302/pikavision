@@ -1,15 +1,89 @@
 <div class="home-hero">
-  <h1 class="home-title">Explore Pokémon World</h1>
-  <p class="home-subtitle">Discover, search, and collect your favorite Pokémon with Pikavision.</p>
+  <h1 class="home-title">Explora el Mundo Pokémon</h1>
+  <p class="home-subtitle">Descubre, busca y colecciona tus Pokémon favoritos con Pikavision.</p>
 </div>
 
-<div class="home-container" *ngIf="!loading()">
-  <div class="grid">
-    <app-pokemon-card *ngFor="let p of pokemonList()" [pokemon]="p"></app-pokemon-card>
+@if (loading()) {
+  <!-- Skeleton Loader Grid -->
+  <div class="home-container">
+    <div class="grid">
+      @for (item of skeletonItems; track $index) {
+        <div class="skeleton-card">
+          <div class="skeleton-image shimmer"></div>
+          <div class="skeleton-line shimmer skeleton-line--long"></div>
+          <div class="skeleton-line shimmer skeleton-line--short"></div>
+        </div>
+      }
+    </div>
   </div>
-</div>
+} @else if (error()) {
+  <!-- Estado de error HTTP -->
+  <div class="error-card">
+    <span class="error-icon">⚡</span>
+    <h3 class="error-title">¡Algo salió mal!</h3>
+    <p class="error-text">{{ error() }}</p>
+    <button class="btn-retry" (click)="ngOnInit()">Reintentar</button>
+  </div>
+} @else {
 
-<div class="loading-container" *ngIf="loading()">
-  <div class="pokeball-spinner"></div>
-  <p class="loading-text">Loading Pokémon...</p>
-</div>
+  <!-- ── Barra de búsqueda ───────────────────────────────── -->
+  <div class="home-search-bar">
+    <div class="home-input-wrapper">
+      <span class="home-search-icon">🔍</span>
+      <input
+        id="home-search-input"
+        type="text"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="onSearch($event)"
+        placeholder="Filtrar Pokémon por nombre..."
+        class="home-search-input"
+        autocomplete="off"
+      />
+      @if (searchQuery()) {
+        <button class="home-clear-btn" (click)="clearSearch()" aria-label="Limpiar búsqueda">✕</button>
+      }
+    </div>
+  </div>
+
+  <!-- ── Panel de ordenamiento ──────────────────────────── -->
+  <div class="sort-bar">
+    <span class="sort-label">Ordenar:</span>
+    <div class="sort-pills">
+      @for (opt of sortOptions; track opt.key) {
+        <button
+          class="sort-pill"
+          [class.active]="sortBy() === opt.key"
+          (click)="setSort(opt.key)"
+          [attr.aria-pressed]="sortBy() === opt.key"
+        >
+          <span class="sort-pill-icon">{{ opt.icon }}</span>
+          {{ opt.label }}
+        </button>
+      }
+    </div>
+    <p class="home-result-count">
+      Mostrando <strong>{{ displayList().length }}</strong> de {{ pokemonList().length }} Pokémon
+    </p>
+  </div>
+
+  <!-- ── Grid de Pokémon ────────────────────────────────── -->
+  @if (displayList().length > 0) {
+    <div class="home-container">
+      <div class="grid">
+        @for (p of displayList(); track p.name) {
+          <app-pokemon-card [pokemon]="p" />
+        }
+      </div>
+    </div>
+  } @else {
+    <!-- Estado vacío al filtrar -->
+    <div class="empty-filter-card">
+      <span class="empty-filter-icon">🔍</span>
+      <h3 class="empty-filter-title">Ningún Pokémon coincide con "{{ searchQuery() }}"</h3>
+      <p class="empty-filter-text">
+        Intenta con otro nombre o
+        <button class="btn-clear-inline" (click)="clearSearch()">limpia la búsqueda</button>.
+      </p>
+    </div>
+  }
+}

@@ -1,31 +1,65 @@
 <div class="search-hero">
-  <h1 class="search-title">Search Pokémon</h1>
-  <p class="search-subtitle">Enter a Pokémon's name to see details, stats, and abilities.</p>
+  <h1 class="search-title">Buscar Pokémon</h1>
+  <p class="search-subtitle">Escribe un nombre y los resultados aparecen al instante — sin necesidad de presionar Enter.</p>
 </div>
 
+<!-- Búsqueda en tiempo real -->
 <div class="search-form-container">
-  <form (ngSubmit)="performSearch()" class="search-form">
+  <div class="search-form">
     <div class="input-wrapper">
       <span class="search-icon">🔍</span>
-      <input type="text" [(ngModel)]="query" name="query" placeholder="Search by name (e.g. pikachu, charizard)..." class="search-input" autocomplete="off" />
+      <input
+        id="search-input"
+        type="text"
+        [ngModel]="querySignal()"
+        (ngModelChange)="onQueryChange($event)"
+        placeholder="Escribe el nombre de un Pokémon (ej. pikachu, charizard)..."
+        class="search-input"
+        autocomplete="off"
+      />
+      @if (querySignal()) {
+        <button class="clear-btn" (click)="clearQuery()" aria-label="Limpiar">✕</button>
+      }
     </div>
-    <button type="submit" class="search-button" [disabled]="!query.trim()">Search</button>
-  </form>
-</div>
-
-<div class="loading-container" *ngIf="loading()">
-  <div class="pokeball-spinner"></div>
-  <p class="loading-text">Searching Pokémon...</p>
-</div>
-
-<div class="results-container" *ngIf="!loading() && results().length > 0">
-  <div class="search-result-wrapper">
-    <app-pokemon-card *ngFor="let p of results()" [pokemon]="p"></app-pokemon-card>
   </div>
 </div>
 
-<div class="no-results-card" *ngIf="!loading() && results().length === 0 && query.trim()">
-  <span class="no-results-icon">❓</span>
-  <h3 class="no-results-title">No Pokémon Found</h3>
-  <p class="no-results-text">We couldn't find a Pokémon matching "{{ query }}". Make sure the spelling is correct.</p>
-</div>
+@if (loading()) {
+  <!-- Spinner de carga -->
+  <div class="loading-container">
+    <div class="pokeball-spinner"></div>
+    <p class="loading-text">Buscando "{{ querySignal() }}"...</p>
+  </div>
+} @else if (networkError()) {
+  <!-- Error de red -->
+  <div class="error-card">
+    <span class="error-icon">⚡</span>
+    <h3 class="error-title">¡Error de conexión!</h3>
+    <p class="error-text">{{ networkError() }}</p>
+  </div>
+} @else if (results().length > 0) {
+  <!-- Resultados de búsqueda -->
+  <div class="results-container">
+    <div class="search-result-wrapper">
+      @for (p of results(); track p.id) {
+        <app-pokemon-card [pokemon]="p" />
+      }
+    </div>
+  </div>
+} @else if (hasSearched() && notFound()) {
+  <!-- Pokémon no encontrado -->
+  <div class="no-results-card">
+    <span class="no-results-icon">❓</span>
+    <h3 class="no-results-title">Pokémon no encontrado</h3>
+    <p class="no-results-text">
+      No encontramos ningún Pokémon con el nombre "{{ querySignal() }}". Verifica que la escritura sea correcta.
+    </p>
+  </div>
+} @else if (!querySignal()) {
+  <!-- Estado inicial — invitar al usuario a escribir -->
+  <div class="prompt-card">
+    <span class="prompt-icon">✨</span>
+    <h3 class="prompt-title">Comienza a escribir para buscar</h3>
+    <p class="prompt-text">Los resultados aparecerán automáticamente mientras escribes.</p>
+  </div>
+}

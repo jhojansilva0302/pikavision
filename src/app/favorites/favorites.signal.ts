@@ -1,22 +1,50 @@
 import { signal } from '@angular/core';
-import { Pokemon } from '../services/pokeapi.service'; // Assuming Pokemon type export (any if not)
+
+const STORAGE_KEY = 'pikavision_favorites';
+
+/**
+ * Loads the favorites list from localStorage.
+ * Returns an empty array if nothing is stored or if parsing fails.
+ */
+function loadFromStorage(): any[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Persists the favorites list to localStorage.
+ */
+function saveToStorage(list: any[]): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  } catch {
+    // Silently ignore storage errors (e.g. private mode quota)
+  }
+}
 
 /**
  * Global signal that holds the list of favorite Pokémon.
- * Provides helper functions to manipulate the list.
+ * Initialized from localStorage so favorites survive page reloads.
  */
-export const favorites = signal<any[]>([]);
+export const favorites = signal<any[]>(loadFromStorage());
 
 export function addFavorite(pokemon: any): void {
   const list = favorites();
   if (!list.find(p => p.id === pokemon.id)) {
-    favorites.set([...list, pokemon]);
+    const next = [...list, pokemon];
+    favorites.set(next);
+    saveToStorage(next);
   }
 }
 
 export function removeFavorite(pokemon: any): void {
-  const list = favorites();
-  favorites.set(list.filter(p => p.id !== pokemon.id));
+  const next = favorites().filter(p => p.id !== pokemon.id);
+  favorites.set(next);
+  saveToStorage(next);
 }
 
 export function toggleFavorite(pokemon: any): void {

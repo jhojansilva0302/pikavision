@@ -1,82 +1,117 @@
 <div class="back-nav">
   <a routerLink="/home" class="btn-back">
-    <span class="back-arrow">←</span> Back to Explore
+    <span class="back-arrow">←</span> Volver a explorar
   </a>
 </div>
 
-<div class="details-container" *ngIf="!loading() && pokemon()">
-  <div class="details-grid">
-    <!-- Left side: Artwork & Favorite Toggle -->
-    <div class="art-card">
-      <div class="art-glow"></div>
-      <img [src]="pokemon().sprites?.other?.['official-artwork']?.front_default" alt="{{ pokemon().name }}" class="pokemon-large-art" />
-      
-      <button class="btn-favorite" (click)="toggleFav()" [class.is-fav]="isFav">
-        <span class="star-icon">★</span>
-        {{ isFav ? 'Remove from Favorites' : 'Add to Favorites' }}
-      </button>
+@if (loading()) {
+  <div class="loading-container">
+    <div class="pokeball-spinner"></div>
+    <p class="loading-text">Cargando detalles...</p>
+  </div>
+} @else if (error()) {
+  <div class="no-results-card">
+    <span class="no-results-icon">⚡</span>
+    <h3 class="no-results-title">¡Algo salió mal!</h3>
+    <p class="no-results-text">{{ error() }}</p>
+    <a routerLink="/home" class="btn-back-home">Volver al inicio</a>
+  </div>
+} @else if (pokemon()) {
+
+  <!-- Wrapper con tema según el tipo primario del Pokémon -->
+  <div class="type-scene type-scene--{{ typeTheme() }}">
+
+    <!-- Blobs decorativos flotantes -->
+    <div class="type-blob type-blob--1" aria-hidden="true"></div>
+    <div class="type-blob type-blob--2" aria-hidden="true"></div>
+    <div class="type-blob type-blob--3" aria-hidden="true"></div>
+
+    <!-- Partículas de tipo flotantes ─ íconos animados según el tipo -->
+    <div class="type-particles" aria-hidden="true">
+      <span class="tp tp--1"></span>
+      <span class="tp tp--2"></span>
+      <span class="tp tp--3"></span>
+      <span class="tp tp--4"></span>
+      <span class="tp tp--5"></span>
+      <span class="tp tp--6"></span>
+      <span class="tp tp--7"></span>
+      <span class="tp tp--8"></span>
     </div>
 
-    <!-- Right side: Info Card -->
-    <div class="info-card">
-      <div class="info-header">
-        <span class="id-badge">#{{ pokemon().id }}</span>
-        <h1 class="pokemon-name">{{ pokemon().name | titlecase }}</h1>
-      </div>
+    <!-- Contenido de detalles -->
+    <div class="details-container">
+      <div class="details-grid">
 
-      <!-- Types Badges -->
-      <div class="types-row">
-        <span *ngFor="let t of pokemon().types" class="type-badge type-{{ t.type.name.toLowerCase() }}">
-          {{ t.type.name | titlecase }}
-        </span>
-      </div>
+        <!-- Lado izquierdo: Imagen y favorito -->
+        <div class="art-card">
+          <div class="art-glow"></div>
+          <img
+            [src]="pokemon().sprites?.other?.['official-artwork']?.front_default"
+            alt="{{ pokemon().name }}"
+            class="pokemon-large-art"
+          />
+          <button class="btn-favorite" (click)="toggleFav()" [class.is-fav]="isFav()">
+            <span class="star-icon">★</span>
+            {{ isFav() ? 'Quitar de favoritos' : 'Agregar a favoritos' }}
+          </button>
+        </div>
 
-      <!-- Stats Grid -->
-      <div class="details-section">
-        <h3 class="section-title">Base Stats</h3>
-        <div class="stats-list">
-          <div *ngFor="let s of pokemon().stats" class="stat-row">
-            <span class="stat-name">{{ s.stat.name | uppercase }}</span>
-            <span class="stat-value">{{ s.base_stat }}</span>
-            <div class="stat-bar-bg">
-              <div class="stat-bar-fill" [style.width.%]="(s.base_stat / 255) * 100"></div>
+        <!-- Lado derecho: Info -->
+        <div class="info-card">
+          <div class="info-header">
+            <span class="id-badge">#{{ pokemon().id }}</span>
+            <h1 class="pokemon-name">{{ pokemon().name | titlecase }}</h1>
+          </div>
+
+          <!-- Tipos -->
+          <div class="types-row">
+            @for (t of pokemon().types; track t.slot) {
+              <span class="type-badge type-{{ t.type.name.toLowerCase() }}">
+                {{ t.type.name | titlecase }}
+              </span>
+            }
+          </div>
+
+          <!-- Estadísticas base -->
+          <div class="details-section">
+            <h3 class="section-title">Estadísticas base</h3>
+            <div class="stats-list">
+              @for (s of pokemon().stats; track s.stat.name) {
+                <div class="stat-row">
+                  <span class="stat-name">{{ statName(s.stat.name) }}</span>
+                  <span class="stat-value">{{ s.base_stat }}</span>
+                  <div class="stat-bar-bg">
+                    <div class="stat-bar-fill" [style.width.%]="(s.base_stat / 255) * 100"></div>
+                  </div>
+                </div>
+              }
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Info Row -->
-      <div class="details-section info-summary">
-        <div class="info-item">
-          <span class="info-label">Height</span>
-          <span class="info-val">{{ pokemon().height / 10 }} m</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Weight</span>
-          <span class="info-val">{{ pokemon().weight / 10 }} kg</span>
-        </div>
-      </div>
+          <!-- Altura y Peso -->
+          <div class="details-section info-summary">
+            <div class="info-item">
+              <span class="info-label">Altura</span>
+              <span class="info-val">{{ pokemon().height / 10 }} m</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Peso</span>
+              <span class="info-val">{{ pokemon().weight / 10 }} kg</span>
+            </div>
+          </div>
 
-      <!-- Abilities -->
-      <div class="details-section">
-        <h3 class="section-title">Abilities</h3>
-        <div class="abilities-row">
-          <span *ngFor="let a of pokemon().abilities" class="ability-badge">
-            {{ a.ability.name | titlecase }}
-          </span>
+          <!-- Habilidades -->
+          <div class="details-section">
+            <h3 class="section-title">Habilidades</h3>
+            <div class="abilities-row">
+              @for (a of pokemon().abilities; track a.ability.name) {
+                <span class="ability-badge">{{ abilityName(a.ability.name) }}</span>
+              }
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="loading-container" *ngIf="loading()">
-  <div class="pokeball-spinner"></div>
-  <p class="loading-text">Loading Details...</p>
-</div>
-
-<div class="no-results-card" *ngIf="!loading() && !pokemon()">
-  <span class="no-results-icon">❓</span>
-  <h3 class="no-results-title">Pokémon Not Found</h3>
-  <p class="no-results-text">We couldn't load the details for this Pokémon.</p>
-</div>
+  </div><!-- /type-scene -->
+}

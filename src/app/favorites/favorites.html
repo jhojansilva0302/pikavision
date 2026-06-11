@@ -1,19 +1,23 @@
 <div class="favorites-hero">
-  <h1 class="favorites-title">Your Favorite Pokémon</h1>
-  <p class="favorites-subtitle">Manage and view all the Pokémon you've starred as favorites.</p>
+  <h1 class="favorites-title">Tus Pokémon Favoritos</h1>
+  <p class="favorites-subtitle">Gestiona y visualiza todos los Pokémon que has marcado como favoritos.</p>
 </div>
 
-<div class="favorites-container" *ngIf="favList().length > 0; else emptyState">
-  <div class="grid">
-    <app-pokemon-card *ngFor="let p of favList()" [pokemon]="p"></app-pokemon-card>
+@if (favList().length > 0) {
+  <!-- Grid de favoritos -->
+  <div class="favorites-container">
+    <div class="grid">
+      @for (p of favList(); track p.id) {
+        <app-pokemon-card [pokemon]="p" />
+      }
+    </div>
   </div>
-</div>
-
-<ng-template #emptyState>
+} @else {
+  <!-- Estado vacío -->
   <div class="empty-state-card">
     <span class="empty-state-icon">⭐</span>
-    <h3 class="empty-state-title">No Favorites Yet</h3>
-    <p class="empty-state-text">Start exploring Pokémon and star your favorites to see them here!</p>
-    <a routerLink="/home" class="btn-explore">Explore Pokémon</a>
+    <h3 class="empty-state-title">Aún no tienes favoritos</h3>
+    <p class="empty-state-text">¡Empieza a explorar y agrega tus Pokémon favoritos para verlos aquí!</p>
+    <a routerLink="/home" class="btn-explore">Explorar Pokémon</a>
   </div>
-</ng-template>
+}
