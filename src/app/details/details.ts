@@ -1,6 +1,7 @@
 import { Component, signal, OnInit, computed, ChangeDetectionStrategy } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
+import { MovieCommentsComponent } from './movie-comments/movie-comments.component';
 import { forkJoin } from 'rxjs';
 import { PokeApiService } from '../services/pokeapi.service';
 import { toggleFavorite, isFavorite } from '../favorites/favorites.signal';
@@ -23,7 +24,7 @@ const STAT_ES: Record<string, string> = {
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [RouterModule, TitleCasePipe],
+  imports: [RouterModule, TitleCasePipe, MovieCommentsComponent],
   templateUrl: './details.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './details.css'

@@ -1,0 +1,65 @@
+<div class="comments-root">
+
+  @if (loading()) {
+    <div class="comments-loading">Cargando comentarios...</div>
+  } @else if (error()) {
+    <div class="comments-error">{{ error() }}</div>
+  } @else {
+
+    <section class="comments-list">
+      <h3 class="comments-title">Comentarios y calificaciones</h3>
+
+      @if (comments().length === 0) {
+        <div class="comments-empty">Sé el primero en comentar este ítem.</div>
+      } @else {
+        @for (c of comments(); track c.id) {
+          <article class="comment-card" role="article">
+            <header class="comment-meta">
+              <strong class="comment-author">{{ c.author }}</strong>
+              <time class="comment-date">{{ c.createdAt }}</time>
+            </header>
+            <div class="comment-rating" aria-hidden="true">
+              @for (i of [1,2,3,4,5]; track i) {
+                <span class="star" [class.filled]="i <= c.rating">★</span>
+              }
+            </div>
+            <p class="comment-body">{{ c.text }}</p>
+          </article>
+        }
+      }
+    </section>
+
+    <section class="comments-form">
+      <h4>Publicar un comentario</h4>
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        <label>
+          Nombre
+          <input formControlName="author" aria-label="Nombre" />
+        </label>
+
+        <label>
+          Comentario
+          <textarea formControlName="comment" rows="4" aria-label="Comentario"></textarea>
+        </label>
+
+        <div class="rating-input" role="radiogroup" aria-label="Calificación">
+          @for (i of [1,2,3,4,5]; track i) {
+            <button type="button" class="rating-star" (mouseenter)="setHover(i)" (mouseleave)="clearHover()" (click)="setRatingStars(i)" [attr.aria-checked]="form.get('rating')?.value === i" aria-label="{{i}} estrella(s)">
+              <span class="star" [class.filled]="i <= (hoverRating() || (form.get('rating')?.value ?? 0))">★</span>
+            </button>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit" [disabled]="form.invalid || submitting()">Enviar</button>
+        </div>
+      </form>
+
+      @if (successMsg()) {
+        <div class="form-success">{{ successMsg() }}</div>
+      }
+    </section>
+
+  }
+
+</div>

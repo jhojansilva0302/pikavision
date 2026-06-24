@@ -113,5 +113,18 @@
         </div>
       </div>
     </div>
-  </div><!-- /type-scene -->
+      <!-- Sección de comentarios (cargada de forma diferida) -->
+      @defer {
+        <app-movie-comments [itemId]="'movie-' + pokemon().id"></app-movie-comments>
+      }
+      @placeholder {
+        <div class="comments-placeholder">Cargando sección de comentarios...</div>
+      }
+      @loading {
+        <div class="comments-loading">Inicializando comentarios…</div>
+      }
+      @error {
+        <div class="comments-error">No se pudieron cargar los comentarios.</div>
+      }
+    </div><!-- /type-scene -->
 }

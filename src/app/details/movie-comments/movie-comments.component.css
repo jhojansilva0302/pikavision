@@ -1,0 +1,18 @@
+.comments-root {
+  padding: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+.comments-title { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
+.comments-list { margin-bottom: 1rem; }
+.comment-card { padding: 0.75rem; border-radius: 8px; background: rgba(255,255,255,0.02); margin-bottom: 0.5rem; }
+.comment-meta { display:flex; justify-content:space-between; gap:1rem; font-size:0.9rem; color:var(--muted,#bbb); }
+.comment-author { color:var(--accent,#fff); }
+.comment-body { margin-top:0.5rem; color:var(--text,#ddd); }
+.star { color: #444; }
+.star.filled { color: #ffcc00; }
+.rating-input { display:flex; gap:0.25rem; margin:0.5rem 0; }
+.rating-star { background:transparent; border:0; cursor:pointer; font-size:1.2rem; padding:0.15rem; }
+.rating-star:focus { outline:2px solid rgba(255,204,0,0.35); border-radius:4px; }
+.form-actions { margin-top:0.5rem; }
+.btn-submit { background:var(--accent,#ffcc00); color:#000; border:none; padding:0.5rem 0.8rem; border-radius:6px; }
+.comments-loading, .comments-empty, .comments-error, .form-success { padding:0.5rem; color:var(--muted,#ddd); }
